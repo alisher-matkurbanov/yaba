@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, Header
 from app.handler.error import ErrorHandler
 from app.service.chat import ChatService
 from app.core.entity import ChatMessage
-from app.schema import ChatMessageRequest, ChatAnswerResponse
+from app.handler.schema import ChatMessageRequest, ChatAnswerResponse
 
 router = APIRouter(route_class=ErrorHandler)
 

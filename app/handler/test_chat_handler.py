@@ -1,11 +1,10 @@
-import json
 from uuid import uuid4
 
 import pytest
 from fastapi.testclient import TestClient
 
 from app.main import app
-from app.schema import ChatMessageRequest
+from app.handler.schema import ChatMessageRequest
 
 client = TestClient(app)
 
