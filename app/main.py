@@ -1,19 +1,8 @@
-from fastapi import FastAPI, Request
-from starlette.responses import JSONResponse
-from starlette.status import HTTP_400_BAD_REQUEST
+from fastapi import FastAPI
+from starlette.middleware.base import BaseHTTPMiddleware
 
-from app.handler import chat
+from app.handler import chat, middleware
 
 app = FastAPI()
 app.include_router(chat.router)
-
-
-@app.middleware("http")
-async def check_idempotency_key(request: Request, call_next):
-    if request.headers.get("Idempotency-Key") is None:
-        return JSONResponse(
-            status_code=HTTP_400_BAD_REQUEST,
-            content={"detail": "Idempotency-Key header is required"},
-        )
-
-    return await call_next(request)
+app.add_middleware(BaseHTTPMiddleware, dispatch=middleware.check_idempotency_key)
